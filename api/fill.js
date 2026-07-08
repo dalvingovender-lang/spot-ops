@@ -38,10 +38,13 @@ Return ONLY valid JSON — no explanation, no markdown fences, just the raw JSON
   "actions": [{"text": "", "owner": "", "due": "YYYY-MM-DD or empty string"}]
 }
 
-Light colours: g=green all good, a=amber watch this, r=red needs attention.
+Type rules — follow exactly, do not deviate:
+- "esc_open", "esc_unblock", "telco_fwd", "bank_fwd" and "pulse_notes" MUST be a single JSON string, never an array. If there are multiple points, join them inside the one string using "\\n• " between items (start the first item with "• " too). Do not return ["item1", "item2"] for these fields.
+- "uc_light", "sm_light", "cs_light", "bc_light" MUST be exactly one of the three characters g, a, or r — no other words, no capitals.
+- If a speaker explicitly says an item is "all good", "no issues", "fine", or equivalent, that item's light MUST be g even if other items discussed nearby are more severe — do not let surrounding context bleed into an explicitly-confirmed-good item. Use r only for a confirmed outage/critical failure, a for a watch-item or unconfirmed concern, g otherwise.
 
 Transcript:
-${transcript.slice(0, 15000)}`;
+${transcript.slice(0, 40000)}`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -53,7 +56,7 @@ ${transcript.slice(0, 15000)}`;
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 3000,
+        max_tokens: 6000,
         messages: [{ role: 'user', content: prompt }]
       })
     });
