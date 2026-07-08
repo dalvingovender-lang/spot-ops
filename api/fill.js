@@ -51,7 +51,7 @@ ${transcript.slice(0, 12000)}`;
         'Authorization': `Bearer ${groqKey}`
       },
       body: JSON.stringify({
-        model: 'llama3-70b-8192',
+        model: 'qwen/qwen3-32b',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.1,
         max_tokens: 3000
