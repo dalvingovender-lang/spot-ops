@@ -41,7 +41,7 @@ Return ONLY valid JSON — no explanation, no markdown, just the JSON object:
 Light values: g=green all good, a=amber watch this, r=red needs attention
 
 Transcript:
-${transcript.slice(0, 6000)}`;
+${transcript.slice(0, 4000)}`;
 
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -51,7 +51,7 @@ ${transcript.slice(0, 6000)}`;
         'Authorization': `Bearer ${groqKey}`
       },
       body: JSON.stringify({
-        model: 'qwen/qwen3-32b',
+        model: 'openai/gpt-oss-20b',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.1,
         max_tokens: 3000
